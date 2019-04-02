@@ -14,7 +14,7 @@
             <div class="wheel-wrapper" ref="wheelWrapper">
               <div class="wheel" v-for="data in pickerData">
                 <ul class="wheel-scroll">
-                  <li v-for="item in data" class="wheel-item">{{item.text}}</li>
+                  <li v-for="item in data" :class="{'wheel-disabled-item':item.disabled}" class="wheel-item">{{item.text}}</li>
                 </ul>
               </div>
             </div>
@@ -195,10 +195,10 @@
           return dist
         }
       },
-      scrollTo(index, dist) {
+      scrollTo(index, dist, time = 0) {
         const wheel = this.wheels[index]
         this.pickerSelectedIndex[index] = dist
-        wheel.wheelTo(dist)
+        wheel.scrollTo(0, -dist * wheel.itemHeight, time)
       },
       refresh() {
         this.$nextTick(() => {
@@ -334,6 +334,8 @@
               overflow: hidden
               white-space: nowrap
               color: $color-dark-grey
+              &.wheel-disabled-item
+                opacity: .2;
     .picker-footer
       height: 20px
 </style>
